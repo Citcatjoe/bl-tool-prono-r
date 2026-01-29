@@ -1,0 +1,66 @@
+@import './styles/_variables';
+//@import './styles/_fonts';
+
+:root 
+{
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+.App 
+{
+    max-width: 632px;
+    min-height: 200px;
+    //height: 200px;
+    background: var(--color-fill-default);
+
+    @media (max-width: $mobile) {
+        max-width: 100%;
+    }
+}
+
+//TEXT
+
+
+.font-blickb {
+  font-family: "BlickVariable", sans-serif;
+  font-weight: 700;
+}
+
+.font-inter 
+{
+    font-family: InterVariable, sans-serif;
+}
+
+.bg-blick 
+{
+    background-color: var(--color-fill-brand);
+
+    &:hover 
+    {
+        background-color: var(--color-fill-brand_hover);
+    }
+}
+
+.text-weak 
+{
+    color: var(--color-text-weak);
+}
+
+.text-default 
+{
+    color: var(--color-text-default);
+}   
+
+
+
+
+
+
+
+

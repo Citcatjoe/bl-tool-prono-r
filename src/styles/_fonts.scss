@@ -1,0 +1,32 @@
+
+@font-face {
+    font-family: "blickextrabold";
+    src: url("./assets/fonts/code-next_extrabold-webfont.woff2") format("woff2"),
+        url("./assets/fonts/code-next_extrabold-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+  
+@font-face {
+    font-family: "blickregular";
+    src: url("./assets/fonts/code-next_regular-webfont.woff2") format("woff2"),
+        url("./assets/fonts/code-next_regular-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+  
+.font-blickr {
+    font-family: "blickregular";
+// -webkit-font-smoothing: antialiased;
+// -moz-osx-font-smoothing: grayscale;
+}
+
+.font-blickb {
+    font-family: "blickextrabold";
+// -webkit-font-smoothing: antialiased;
+// -moz-osx-font-smoothing: grayscale;
+}
+
+.font-i {
+    font-family: Inter;
+}

@@ -1,0 +1,199 @@
+@import '../../styles/_variables';
+
+.container {
+  background-color: var(--color-fill-weak);
+  border-radius: 12px;
+  overflow: hidden;
+  //box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'InterVariable', sans-serif;
+  max-width: 340px;
+  width: 100%;
+  border: 1px solid var(--color-fill-strong);
+} 
+
+.header {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-fill-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  h2 {
+    font-family: 'blickVariable', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--color-text-weak);
+    margin: 0;
+    line-height: 1.33;
+  }
+
+  p {
+    font-family: 'InterVariable', sans-serif;
+    font-size: 12px;
+    line-height: 1.1;
+    color: #666;
+    margin: 0;
+  }
+}
+
+.matchArea {
+  padding: 35px 20px 33px ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  @media (min-width: 300px) {
+    gap: 24px;
+  }
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.flag {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  position: relative; // For flag-icon positioning
+
+  // flag-icons styling override for round shape
+  span {
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    //transform: scale(1.4); // Zoom in to fill circle without borders
+  }
+}
+
+.vsText {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-stroke-weak);
+  text-transform: uppercase;
+  display: block;
+  width: 60px;
+  text-align: center;
+  //margin-top: -10px; // Visual adjustment to align with flag centers
+}
+
+.progressBarContainer {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+  height: 10px;
+  background-color: var(--color-fill-default);
+  border-radius: 10px;
+  overflow: visible;
+  display: flex;
+  position: relative;
+}
+
+.progressBarSegment {
+  height: 100%;
+  transition: width 1s ease-out;
+  width: 0; // Starts at 0 for animation
+  position: relative;
+  overflow: visible;
+
+  &:first-child {
+    border-radius: 50px 0 0 50px;
+  }
+
+  &:last-child {
+    border-radius: 0 50px 50px 0;
+  }
+
+  &.team1 { }
+  &.draw { background-color: var(--color-fill-default); span {color: var(--color-stroke-weak);}}
+  &.team2 { } // Scotland blue approx 
+
+  span {
+    font-family: BLickVariable;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-160%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-default);
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+  }
+}
+
+.footer {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid var(--color-fill-strong);
+}
+
+.voteBtn {
+  //flex: 1;
+  width: 90px;
+  background: var(--color-fill-default);
+  border: none;
+  padding: 11px 8px;
+  border-radius: 20px;
+  //box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-family: 'InterVariable', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--color-text-default);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    //transform: translateY(-1px);
+    //box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background: var(--color-fill-strong);
+  }
+
+  &:active {
+    transform: translateY(0);
+    //box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  &.nul {
+    background: transparent;
+    flex: 1;
+    color: var(--color-text-weak);
+    font-weight: 500;
+    //max-width:
+
+    &:hover {
+      background: var(--color-fill-strong);
+    }
+  }
+
+  &:disabled {
+    color: var(--color-fill-strong);
+    //opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+  }
+}
