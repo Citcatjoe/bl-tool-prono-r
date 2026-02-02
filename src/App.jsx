@@ -6,7 +6,7 @@ import { db } from './services/firebase';
 import { doc, updateDoc, increment } from 'firebase/firestore';
 import LoadingOverlay from './components/LoadingOverlay/LoadingOverlay';
 import PronosticWidget from './components/PronosticWidget/PronosticWidget';
-import { getCountryData } from './utils/countryFlags';
+
 
 function App() {
     const [docId] = useState(() => new URLSearchParams(window.location.search).get('pronoDoc'));
@@ -69,12 +69,14 @@ function App() {
         competition: pronoData.event || "Compétition inconnue",
         team1: { 
             name: pronoData.item1?.name, 
-            code: getCountryData(pronoData.item1?.name).code,
+            code: pronoData.item1?.code,
+            type: pronoData.item1?.type,
             color: pronoData.item1?.color 
         },
         team2: { 
             name: pronoData.item2?.name, 
-            code: getCountryData(pronoData.item2?.name).code,
+            code: pronoData.item2?.code,
+            type: pronoData.item2?.type,
             color: pronoData.item2?.color
         },
         initialVotes: { 

@@ -126,17 +126,21 @@ const PronosticWidget = ({ match, docId, devMode }) => {
 
             <div className={s.matchArea}>
                 <div className={s.team}>
-                    <div className={s.flag}>
-                        <span className={`fi fi-${match.team1.code} fis`}></span>
-                    </div>
+                    {match.team1.type === 'national' && (
+                        <div className={s.flag}>
+                            <span className={`fi fi-${match.team1.code} fis`}></span>
+                        </div>
+                    )}
                 </div>
                 
                 <span className={s.vsText}>CONTRE</span>
 
                 <div className={s.team}>
-                    <div className={s.flag}>
-                         <span className={`fi fi-${match.team2.code} fis`}></span>
-                    </div>
+                    {match.team2.type === 'national' && (
+                        <div className={s.flag}>
+                            <span className={`fi fi-${match.team2.code} fis`}></span>
+                        </div>
+                    )}
                 </div>
             </div>
 
