@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'; 
 import './App.scss';
-import { fetchPronoData } from './services/api';
-import { dataLayerPushView } from './services/analytics';
-import { db } from './services/firebase';
+import { fetchWidgetData } from '@rms/services';
+import { dataLayerPushView } from '@rms/services';
+import { db } from '@rms/services';
 import { doc, updateDoc, increment } from 'firebase/firestore';
 import LoadingOverlay from './components/LoadingOverlay/LoadingOverlay';
 import PronosticWidget from './components/PronosticWidget/PronosticWidget';
@@ -21,7 +21,7 @@ function App() {
 
         async function loadProno() {
             try {
-                const data = await fetchPronoData(docId);
+                const data = await fetchWidgetData(docId);
                 setProno(data);
                 
                 // Log for verification as per SKILL.md
@@ -29,7 +29,7 @@ function App() {
                 // console.log('prono data:', data);
 
                 await incrementViewCounter(docId); 
-                dataLayerPushView(docId);
+                dataLayerPushView(docId, 'PRONO');
             } catch (error) {
                 console.error('Erreur lors du chargement du prono:', error);
             }
@@ -40,9 +40,9 @@ function App() {
 
     async function incrementViewCounter(docId) {
         try {
-            const pronoRef = doc(db, 'embeds', docId);
+            const pronoRef = doc(db, 'widgets', docId);
             await updateDoc(pronoRef, {
-                counterViews: increment(1),
+                'stats.views': increment(1),
             });
         } catch (error) {
             console.error('Erreur lors de l\'incrémentation du compteur de vues :', error);
@@ -59,7 +59,7 @@ function App() {
     };
     */
 
-    const pronoData = prono?.pronoData || prono;
+    const pronoData = prono?.data?.pronoData || prono?.pronoData || prono;
     const match = (pronoData && pronoData.item1 && pronoData.item2) ? {
         date: pronoData.date 
             ? (typeof pronoData.date.toDate === 'function' ? pronoData.date.toDate() : new Date(pronoData.date))
@@ -80,9 +80,9 @@ function App() {
             color: pronoData.item2?.color
         },
         initialVotes: { 
-            team1: pronoData.item1?.votes || 0, 
-            draw: pronoData.item3?.votes || pronoData.item3?.counter || 0, // Handle potential naming diff
-            team2: pronoData.item2?.votes || 0
+            team1: prono?.stats?.itemVotes?.item1 ?? pronoData?.item1?.votes ?? 0, 
+            draw: prono?.stats?.itemVotes?.item3 ?? pronoData?.item3?.votes ?? pronoData?.item3?.counter ?? 0,
+            team2: prono?.stats?.itemVotes?.item2 ?? pronoData?.item2?.votes ?? 0
         }
     } : null;
 

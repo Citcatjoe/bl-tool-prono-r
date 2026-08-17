@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import s from './PronosticWidget.module.scss';
 import 'flag-icons/css/flag-icons.min.css';
-import { db } from '../../services/firebase';
+import { db } from '@rms/services';
 import { doc, runTransaction } from 'firebase/firestore';
 
 const PronosticWidget = ({ match, docId, devMode }) => {
@@ -43,7 +43,7 @@ const PronosticWidget = ({ match, docId, devMode }) => {
         const itemKey = type === 'team1' ? 'item1' : type === 'team2' ? 'item2' : 'item3';
         
         try {
-            const docRef = doc(db, 'embeds', docId);
+            const docRef = doc(db, 'widgets', docId);
             await runTransaction(db, async (transaction) => {
                 const sfDoc = await transaction.get(docRef);
                 if (!sfDoc.exists()) {
@@ -51,20 +51,21 @@ const PronosticWidget = ({ match, docId, devMode }) => {
                 }
                 
                 const data = sfDoc.data();
-                // Check if data is directly at root or inside pronoData
-                let targetData = data[itemKey];
-                let updatePath = `${itemKey}.votes`;
+                let currentVotes = 0;
+                let updatePath = `stats.itemVotes.${itemKey}`;
 
-                if (!targetData && data.pronoData && data.pronoData[itemKey]) {
-                    targetData = data.pronoData[itemKey];
-                    updatePath = `pronoData.${itemKey}.votes`;
+                if (data.stats && data.stats.itemVotes && data.stats.itemVotes[itemKey] !== undefined) {
+                    currentVotes = data.stats.itemVotes[itemKey];
+                } else if (data.data?.pronoData?.[itemKey]) {
+                    currentVotes = data.data.pronoData[itemKey].votes || 0;
+                } else if (data.pronoData && data.pronoData[itemKey]) {
+                    currentVotes = data.pronoData[itemKey].votes || 0;
+                    // Keep updating new architecture path
+                } else if (data[itemKey]) {
+                    currentVotes = data[itemKey].votes || 0;
+                    // Keep updating new architecture path
                 }
 
-                if (!targetData) {
-                    throw `Item ${itemKey} does not exist!`;
-                }
-
-                const currentVotes = targetData.votes || 0;
                 transaction.update(docRef, { [updatePath]: currentVotes + 1 });
             });
 
